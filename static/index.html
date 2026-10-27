@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>ShopPro — Radar de oportunidades</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">S</span><span>Shop<span class="accent">Pro</span></span></div>
+      <p class="side-caption">PAINEL DE AFILIADOS</p>
+      <button class="nav active" data-view="radar">⌁ <span>Radar de produtos</span></button>
+      <button class="nav" data-view="favorites">♡ <span>Favoritos</span></button>
+      <button class="nav" data-view="links">↗ <span>Meus links</span></button>
+      <button class="nav" data-view="ai">✦ <span>Gerador de conteúdo</span></button>
+      <button class="nav" data-view="calculator">％ <span>Calculadora</span></button>
+      <button class="nav" data-view="history">◷ <span>Histórico</span></button>
+      <button class="nav" data-view="scripts">✎ <span>Roteiros</span></button>
+      <button class="nav" data-view="videos">▶ <span>Criar vídeos</span></button>
+      <button class="nav" data-view="support">? <span>Suporte</span></button>
+      <button class="nav" data-view="admin" id="admin-nav" style="display:none"><span>⚙️</span><span>Administração</span></button>
+      <div class="sidebar-bottom">
+        
+        <div class="plan-mini"><span class="status-dot"></span><div><small>Seu plano</small><strong id="side-plan">Free</strong></div></div>
+        <button class="nav" data-view="plans">◇ <span>Planos e limites</span></button>
+        <button class="nav" id="logout">↪ <span>Sair</span></button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">SEU NEGÓCIO, MAIS INTELIGENTE</div><h1 id="page-title">Radar de produtos</h1></div>
+        <div class="top-user"><div class="avatar" id="avatar">A</div><div><strong id="user-name">Visitante</strong><small id="user-plan">Plano Free</small></div></div>
+      </header>
+      <section id="auth-screen" class="auth-wrap hidden">
+        <div class="auth-card">
+          <div class="brand large"><span class="brand-mark">A</span><span>Shop<span class="accent">Pro</span></span></div>
+          <h2>Encontre oportunidades melhores.</h2><p class="muted">Acesse seu radar, organize links e crie conteúdo para seus produtos.</p>
+          <div class="auth-tabs"><button id="tab-login" class="selected">Entrar</button><button id="tab-register">Criar conta</button></div>
+          <form id="auth-form">
+            <label id="name-wrap" class="hidden">Nome<input id="auth-name" autocomplete="name" minlength="2"></label>
+            <label>E-mail<input id="auth-email" type="email" required autocomplete="email"></label>
+            <label>Senha<input id="auth-password" type="password" required minlength="8" autocomplete="current-password"></label>
+            <button class="primary full" id="auth-submit">Entrar</button>
+          </form>
+<div id="google-login-area">
+  <p class="muted" style="text-align:center; margin:16px 0 10px;">Ou entre com sua conta Google</p>
+  <div id="google-button"></div>
+</div>
+<p id="auth-message" class="message"></p>
+        </div>
+      </section>
+      <section id="view" class="view">
+        <div class="welcome-row"><div><h2>Radar de hoje <span class="live-pill"><i></i> Seus dados</span></h2><p class="muted">Descubra produtos com informações disponíveis na sua base.</p></div><button class="secondary" id="refresh">↻ Atualizar</button></div>
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-icon purple">⌁</span><span class="stat-label">Produtos visíveis</span><strong id="stat-products">0</strong><small>Conforme seu plano e os dados cadastrados</small></div>
+          <div class="stat-card"><span class="stat-icon green">↗</span><span class="stat-label">Novos no radar</span><strong id="stat-new">—</strong><small>Baseado nos produtos recentes</small></div>
+          <div class="stat-card"><span class="stat-icon amber">％</span><span class="stat-label">Maior comissão</span><strong id="stat-commission">—</strong><small>Entre os produtos exibidos</small></div>
+          <div class="stat-card"><span class="stat-icon blue">♡</span><span class="stat-label">Favoritos</span><strong id="stat-favorites">0</strong><small>Produtos salvos por você</small></div>
+        </div>
+        <div class="section-tabs" id="radar-tabs">
+          <button class="selected" data-section="today">Radar de hoje</button><button data-section="trending">Em alta</button><button data-section="high_commission">Maior comissão</button><button data-section="top_sales">Mais vendidos</button>
+        </div>
+        <div class="filter-panel">
+          <div class="filter-search"><label for="search">Buscar produto</label><input id="search" placeholder="Nome do produto..."></div>
+          <div><label for="category">Categoria</label><input id="category" placeholder="Ex.: Casa"></div>
+          <div><label for="min-price">Preço mínimo</label><input id="min-price" type="number" min="0" placeholder="R$ 0"></div>
+          <div><label for="max-price">Preço máximo</label><input id="max-price" type="number" min="0" placeholder="Sem limite"></div>
+          <div><label for="sort">Ordenar por</label><select id="sort"><option value="recent">Mais recentes</option><option value="popularity">Popularidade</option><option value="trend">Tendência</option><option value="commission">Comissão</option><option value="price_asc">Menor preço</option><option value="price_desc">Maior preço</option></select></div>
+          <button class="primary" id="apply-filters">Filtrar</button>
+        </div>
+        <div class="toolbar"><span id="results-label">Produtos</span><div><button class="secondary" id="add-product-btn">＋ Cadastrar produto</button><button class="secondary" id="csv-btn">Importar CSV</button><input type="file" id="csv-file" accept=".csv" class="hidden"></div></div>
+        <div id="product-grid" class="product-grid"></div>
+        <div id="empty-state" class="empty-state hidden"><div class="empty-icon">⌁</div><h3>Seu radar está pronto para receber produtos</h3><p>Não há produtos cadastrados nesta seleção. Para evitar informações falsas, o ShopPro não cria dados fictícios. Cadastre um produto manualmente ou importe um CSV.</p><button class="primary" id="empty-add">＋ Cadastrar primeiro produto</button></div>
+        <p class="data-footnote">Comissões, tendências e vendas são estimativas e só aparecem quando há dados cadastrados. O ShopPro não garante vendas ou ganhos.</p>
+      </section>
+      <div id="toast" class="toast hidden" role="status"></div>
+    </main>
+  </div>
+
+  <dialog id="product-dialog"><form id="product-form" method="dialog" class="dialog-form"><div class="dialog-head"><div><div class="eyebrow">RADAR DE PRODUTOS</div><h2>Cadastrar produto</h2></div><button type="button" class="icon-btn" data-close="product-dialog">×</button></div><p class="muted">Informe apenas dados reais que você conhece ou recebeu de uma fonte confiável.</p>
+    <label>Nome do produto *<input id="p-name" required maxlength="200"></label>
+    <div class="two-cols"><label>Preço (R$)<input id="p-price" type="number" min="0" step="0.01"></label><label>Comissão (%)<input id="p-commission" type="number" min="0" max="100" step="0.01"></label></div>
+    <div class="two-cols"><label>Categoria<input id="p-category"></label><label>Vendas observadas<input id="p-sales" type="number" min="0"></label></div>
+    <label>URL da imagem<input id="p-image" type="url" placeholder="https://..."></label><label>Link do produto/origem<input id="p-url" type="url" placeholder="https://..."></label>
+    <label>Variação de tendência (%) — opcional<input id="p-trend" type="number" step="0.01"></label>
+    <div class="dialog-actions"><button type="button" class="secondary" data-close="product-dialog">Cancelar</button><button class="primary">Salvar produto</button></div>
+  </form></dialog>
+
+  <dialog id="link-dialog"><form id="link-form" method="dialog" class="dialog-form"><div class="dialog-head"><h2>Salvar link</h2><button type="button" class="icon-btn" data-close="link-dialog">×</button></div><label>Nome do link<input id="link-label" required></label><label>URL<input id="link-url" type="url" required placeholder="https://..."></label><div class="dialog-actions"><button type="button" class="secondary" data-close="link-dialog">Cancelar</button><button class="primary">Salvar</button></div></form></dialog>
+
+  <script src="/static/app.js" defer></script>
+</body></html>
